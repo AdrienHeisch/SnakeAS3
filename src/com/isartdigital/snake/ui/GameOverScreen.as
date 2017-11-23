@@ -45,7 +45,7 @@ package src.com.isartdigital.snake.ui
 			else {
 				txtEnterUsername.visible = false;
 				txtInput.visible = false;
-				NetworkManager.setUserScore(Main.getInstance().sharedData.data.username, GameManager.score);
+				NetworkManager.getLeaderboard(this, Main.getInstance().sharedData.data.username, GameManager.score);
 			}
 		}
 		
@@ -53,7 +53,9 @@ package src.com.isartdigital.snake.ui
 			var stage:Stage = Main.getInstance().stage;
 			txtInput.type = TextFieldType.INPUT;
 			stage.focus = txtInput;
+			txtInput.setSelection(0, 0);
 			txtInput.addEventListener(TextEvent.TEXT_INPUT, function():void{});
+			stage.addEventListener(MouseEvent.MOUSE_DOWN, function():void{ stage.focus = txtInput; });
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, stopCapture);
 		}
 		
@@ -61,9 +63,10 @@ package src.com.isartdigital.snake.ui
 			if (pEvent.keyCode == Keyboard.ENTER) {
 				Main.getInstance().sharedData.data.username = txtInput.text;
 				txtInput.removeEventListener(TextEvent.TEXT_INPUT, function():void{});
+				stage.removeEventListener(MouseEvent.MOUSE_DOWN, function():void{ stage.focus = txtInput; });
 				stage.removeEventListener(KeyboardEvent.KEY_DOWN, stopCapture);
 				txtInput.type = TextFieldType.DYNAMIC;
-				NetworkManager.setUserScore(Main.getInstance().sharedData.data.username, GameManager.score);
+				NetworkManager.getLeaderboard(this, Main.getInstance().sharedData.data.username, GameManager.score);
 			}
 		}
 		

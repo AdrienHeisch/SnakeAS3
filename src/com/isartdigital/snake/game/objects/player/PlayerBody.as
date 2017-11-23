@@ -39,7 +39,7 @@ package src.com.isartdigital.snake.game.objects.player
 		
 		public function gameLoop():Boolean 
 		{
-			if (list.indexOf(this) > 1 && mcHitbox.hitTestObject(playerHead.mcHitbox)) return true;
+			if (list.indexOf(this) > 1 && mcHitbox.hitTestObject(playerHead.mcHitbox) && Math.abs(rotation - playerHead.rotation)%180 == 90) return true;
 			
 			var positionIndex: int = playerHead.previousPositions.length - positionIndexOffset;
 			if (positionIndex >= 0) {

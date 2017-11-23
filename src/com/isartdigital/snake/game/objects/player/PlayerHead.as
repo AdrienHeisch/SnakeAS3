@@ -27,8 +27,8 @@ package src.com.isartdigital.snake.game.objects.player
 			return instance;
 		}
 		
-		static protected var initSpeed: Number = 4;
-		static protected var addSpeed: Number = initSpeed / 5;
+		static protected var initSpeed: Number = 5;
+		static protected var multSpeed: Number = 30/1500;
 		
 		protected var pressedKeys:Vector.<Boolean> = new Vector.<Boolean>(4, true); //UP, DOWN, LEFT, RIGHT
 		protected var distanceSinceDirectionChange: Number = 0;
@@ -50,7 +50,9 @@ package src.com.isartdigital.snake.game.objects.player
 			
 			mcHitbox.visible = false;
 			
-			speed = initSpeed + GameManager.lvlNumber * addSpeed;
+			speed = initSpeed + GameManager.score * multSpeed;
+			trace(speed);
+			//speed = initSpeed + GameManager.lvlNumber * addSpeed;
 			velocity.setTo(speed, 0);
 			
 			var stage: Stage = Main.getInstance().stage;
@@ -73,10 +75,10 @@ package src.com.isartdigital.snake.game.objects.player
 				if (pressedKeys[i]) lNKeys++;
 			if (lNKeys == 1 && distanceSinceDirectionChange > width)
 			{
-				if (pressedKeys[0] && velocity.y != speed) velocity.setTo(0, -speed); //UP
-				else if (pressedKeys[1] && velocity.y != -speed) velocity.setTo(0, speed); //DOWN
-				else if (pressedKeys[2] && velocity.x != speed) velocity.setTo(-speed, 0); //LEFT
-				else if (pressedKeys[3] && velocity.x != -speed) velocity.setTo(speed, 0); //RIGHT
+				if (pressedKeys[0] && velocity.y != speed && y >= 3 * height/2) velocity.setTo(0, -speed); //UP
+				else if (pressedKeys[1] && velocity.y != -speed && y <= stage.stageHeight - 3 * height/2) velocity.setTo(0, speed); //DOWN
+				else if (pressedKeys[2] && velocity.x != speed && x >= 3 * width/2) velocity.setTo(-speed, 0); //LEFT
+				else if (pressedKeys[3] && velocity.x != -speed && x <= stage.stageWidth - 3 * width/2) velocity.setTo(speed, 0); //RIGHT
 				distanceSinceDirectionChange = 0;
 			}
 			//else if (lNKeys == 0) velocity.setTo(0, 0); //STOP
@@ -87,24 +89,24 @@ package src.com.isartdigital.snake.game.objects.player
 			if (x < lHalfWidth || x > stage.stageWidth - lHalfWidth) {
 				velocity.x = 0
 				
-				if (y == lHalfHeight) velocity.y = speed;
-				else if (y == stage.stageHeight - lHalfHeight) velocity.y = -speed;
+				if (y <= 3 * lHalfHeight) velocity.y = speed;
+				else if (y >= stage.stageHeight - 3 * lHalfHeight) velocity.y = -speed;
 				else velocity.y = Math.random() < 0.5 ? -speed : speed;
 				
-				if (x < lHalfWidth) x = lHalfWidth;
-				if (x > stage.stageWidth - lHalfWidth) x = stage.stageWidth - lHalfWidth;
+				if (x <= lHalfWidth) x = lHalfWidth;
+				if (x >= stage.stageWidth - lHalfWidth) x = stage.stageWidth - lHalfWidth;
 				distanceSinceDirectionChange = 0;
 			}
 			
 			if (y < lHalfHeight || y > stage.stageHeight - lHalfHeight) {
 				velocity.y = 0;
 				
-				if (x == lHalfWidth) velocity.x = speed;
-				else if (x == stage.stageWidth - lHalfWidth) velocity.x = -speed;
+				if (x <= 3 * lHalfWidth) velocity.x = speed;
+				else if (x >= stage.stageWidth - 3 * lHalfWidth) velocity.x = -speed;
 				else velocity.x = Math.random() < 0.5 ? -speed : speed;
 				
-				if (y < lHalfHeight) y = lHalfHeight;
-				if (y > stage.stageHeight - lHalfHeight) y = stage.stageHeight - lHalfHeight;
+				if (y <= lHalfHeight) y = lHalfHeight;
+				if (y >= stage.stageHeight - lHalfHeight) y = stage.stageHeight - lHalfHeight;
 				distanceSinceDirectionChange = 0;
 			}
 			
