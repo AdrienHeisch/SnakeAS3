@@ -23,6 +23,9 @@ package src.com.isartdigital.snake.ui
 		protected var length: uint;
 		protected var page: uint;
 		
+		public var txtScore: TextField;
+		public var txtName: TextField;
+		public var txtRank: TextField;
 		public var btnPrev: SimpleButton;
 		public var btnNext: SimpleButton;
 		

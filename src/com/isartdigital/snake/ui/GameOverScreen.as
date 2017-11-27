@@ -38,14 +38,16 @@ package src.com.isartdigital.snake.ui
 		{
 			super();
 			
-			bntRetry.addEventListener(MouseEvent.CLICK, onBtnRetry);
 			txtScore.text = "Your score : " + GameManager.score;
-			
-			if (Main.getInstance().sharedData.data.username == null) startTextInput();
+			if (Main.getInstance().sharedData.data.username == null) {
+				btnRetry.visible = false;
+				startTextInput();
+			}
 			else {
 				txtEnterUsername.visible = false;
 				txtInput.visible = false;
 				NetworkManager.getLeaderboard(this, Main.getInstance().sharedData.data.username, GameManager.score);
+				btnRetry.addEventListener(MouseEvent.CLICK, onBtnRetry);
 			}
 		}
 		
@@ -73,6 +75,8 @@ package src.com.isartdigital.snake.ui
 		public function leaderboardSetup(): void {
 			removeChild(txtInput);
 			removeChild(txtEnterUsername);
+			btnRetry.visible = true;
+			btnRetry.addEventListener(MouseEvent.CLICK, onBtnRetry);
 			
 			var lLeaderboard: Leaderboard;
 			addChild(lLeaderboard = new Leaderboard());
@@ -81,7 +85,7 @@ package src.com.isartdigital.snake.ui
 		}
 		
 		protected function onBtnRetry(pEvent:Event): void {
-			bntRetry.addEventListener(MouseEvent.CLICK, onBtnRetry);
+			btnRetry.addEventListener(MouseEvent.CLICK, onBtnRetry);
 			
 			var stage:Stage = Main.getInstance().stage;
 			UIManager.stopGameOver();
